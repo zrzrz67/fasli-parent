@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصولي - أولياء الأمور</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0f1e;--card:#111827;--accent:#f0b429;--accent2:#e05a2b;--purple:#7c3aed;--green:#10b981;--text:#f0eaff;--muted:#8b7aa8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;background-image:radial-gradient(ellipse at 30% 10%,#1a2a5e33 0%,transparent 60%),radial-gradient(ellipse at 70% 90%,#1a3a2e22 0%,transparent 60%);}
+
+.corner-label{position:fixed;bottom:1rem;font-size:0.75rem;font-weight:700;color:rgba(200,180,255,0.55);z-index:500;pointer-events:none;line-height:1.5;}
+.corner-left{left:0.8rem;text-align:right;} .corner-right{right:0.8rem;text-align:left;}
+
+.school-banner{text-align:center;padding:1.3rem 1rem 0.9rem;background:linear-gradient(180deg,#0d1526 0%,transparent 100%);border-bottom:1px solid #ffffff0d;}
+.school-name{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#c9a227,#f0e68c,#b8860b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;}
+.school-name::before,.school-name::after{content:'✦';font-size:0.85rem;margin:0 0.45rem;background:linear-gradient(135deg,#c9a227,#f0e68c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subject-line{margin-top:0.28rem;font-size:0.95rem;font-weight:900;}
+.s1{color:#f0b429;}.s2{color:#e05a2b;}.s3{color:#10b981;}.s4{color:#3b82f6;}.s5{color:#a78bfa;}.s6{color:#ec4899;}.s7{color:#f59e0b;}.s8{color:#06b6d4;}.s9{color:#84cc16;}.s10{color:#f43f5e;}.s11{color:#8b5cf6;}.s12{color:#14b8a6;}
+.school-teacher{font-size:0.8rem;color:#9d8ec0;margin-top:0.2rem;} .school-teacher span{color:#c4aaf0;font-weight:700;}
+.readonly-badge{display:inline-block;background:#10b98122;color:var(--green);border:1px solid #10b98133;border-radius:20px;padding:0.18rem 0.75rem;font-size:0.73rem;font-weight:700;margin-top:0.4rem;}
+
+/* login screen */
+#loginScreen{padding:2rem 1.5rem;max-width:420px;margin:0 auto;text-align:center;}
+#loginScreen h1{font-size:1.9rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.35rem;}
+#loginScreen p{color:var(--muted);margin-bottom:1.2rem;font-size:0.9rem;}
+.login-box{background:var(--card);border:2px solid #ffffff12;border-radius:20px;padding:1.8rem;margin-bottom:1rem;}
+.login-box h2{font-size:1.05rem;font-weight:800;margin-bottom:1.1rem;color:var(--accent);}
+.classes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-bottom:1.2rem;}
+.class-opt{background:#ffffff08;border:2px solid #ffffff12;border-radius:12px;padding:0.8rem 0.4rem;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:800;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;}
+.class-opt:hover{border-color:var(--accent);color:var(--accent);}
+.class-opt.selected{border-color:var(--accent);color:var(--accent);background:#f0b42918;}
+.sid-input{width:100%;background:#ffffff08;border:2px solid #ffffff18;border-radius:12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:1.05rem;padding:0.75rem 1.1rem;outline:none;text-align:center;letter-spacing:2px;direction:ltr;margin-bottom:0.8rem;transition:border-color 0.2s;}
+.sid-input:focus{border-color:var(--accent);}
+.sid-input::placeholder{color:var(--muted);letter-spacing:0;direction:rtl;}
+.login-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:0.82rem;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
+.login-btn:hover{opacity:0.9;}
+.login-err{color:#ef4444;font-size:0.82rem;margin-top:0.5rem;min-height:1.1rem;}
+
+/* student view */
+#studentView{display:none;max-width:580px;margin:0 auto;padding:1.2rem 1.2rem 5rem;}
+.back-btn{background:none;border:2px solid #ffffff20;color:var(--muted);border-radius:10px;padding:0.3rem 0.8rem;font-family:'Tajawal',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;margin-bottom:1rem;transition:all 0.2s;}
+.back-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+.student-hero{background:linear-gradient(135deg,#1a103a,#0f1a30);border:2px solid #ffffff12;border-radius:20px;padding:1.8rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden;}
+.student-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,#7c3aed0a 0%,transparent 70%);}
+.hero-name{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;}
+.hero-class{font-size:0.85rem;color:var(--muted);margin-top:0.3rem;}
+.live-badge{display:inline-flex;align-items:center;gap:0.35rem;background:#10b98115;color:var(--green);border:1px solid #10b98133;border-radius:20px;padding:0.22rem 0.75rem;font-size:0.76rem;font-weight:700;margin-top:0.5rem;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.stats-cards{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem;}
+.stat-card{background:var(--card);border-radius:16px;padding:1.2rem;text-align:center;border:2px solid #ffffff10;}
+.stat-card.gold{border-color:#f0b42944;}
+.stat-card.green{border-color:#10b98144;}
+.stat-num{font-size:2.8rem;font-weight:900;line-height:1;}
+.stat-num.gold{color:var(--accent);}
+.stat-num.green{color:var(--green);}
+.stat-label{font-size:0.8rem;color:var(--muted);margin-top:0.3rem;}
+.rank-badge{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-radius:12px;padding:0.55rem 1.2rem;font-size:1rem;font-weight:900;display:inline-block;margin-top:0.5rem;}
+
+/* behaviors section */
+.section-card{background:var(--card);border-radius:16px;padding:1.2rem;margin-bottom:1rem;border:2px solid #ffffff10;}
+.section-card h3{font-size:1rem;font-weight:800;margin-bottom:0.8rem;color:var(--accent);}
+.bhv-item{display:flex;align-items:center;gap:0.6rem;padding:0.6rem;background:#ffffff06;border-radius:10px;margin-bottom:0.4rem;}
+.bhv-emoji{font-size:1.3rem;}
+.bhv-text{font-size:0.88rem;color:var(--text);}
+.empty-note{color:var(--muted);font-size:0.85rem;text-align:center;padding:0.8rem;}
+
+/* group */
+.group-display{display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1rem;background:#ffffff06;border-radius:12px;}
+.group-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.group-name{font-size:0.95rem;font-weight:700;}
+
+.loading{text-align:center;padding:2.5rem;color:var(--muted);}
+.spinner{width:38px;height:38px;border:3px solid #ffffff12;border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="corner-label corner-left">تطوير المعلم<br><span style="color:rgba(167,139,250,0.65)">أ. علي الزهراني</span></div>
+<div class="corner-label corner-right">مدير المدرسة<br><span style="color:rgba(167,139,250,0.65)">أ. تركي الرويس</span></div>
+
+<div class="school-banner">
+    <div class="school-name">مدرسة ابن تيمية</div>
+  <div class="subject-line">💻 <span class="s1">م</span><span class="s2">ا</span><span class="s3">د</span><span class="s4">ة</span> <span class="s5">ا</span><span class="s6">ل</span><span class="s7">م</span><span class="s8">ه</span><span class="s9">ا</span><span class="s10">ر</span><span class="s11">ا</span><span class="s12">ت</span> <span class="s1">ا</span><span class="s2">ل</span><span class="s3">ر</span><span class="s4">ق</span><span class="s5">م</span><span class="s6">ي</span><span class="s7">ة</span></div>
+  <div><span class="readonly-badge">👁️ بوابة أولياء الأمور</span></div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <h1>👨‍👩‍👧 بوابة أولياء الأمور</h1>
+  <p>أدخل فصل ابنك ورقم سجله المدني لعرض بياناته</p>
+  <div class="login-box">
+    <h2>1. اختر الفصل</h2>
+    <div class="classes-grid">
+      <div class="class-opt" onclick="selectLoginClass('سادس-أ','سادس أ',this)">سادس أ</div>
+      <div class="class-opt" onclick="selectLoginClass('سادس-ب','سادس ب',this)">سادس ب</div>
+      <div class="class-opt" onclick="selectLoginClass('خامس-أ','خامس أ',this)">خامس أ</div>
+      <div class="class-opt" onclick="selectLoginClass('خامس-ب','خامس ب',this)">خامس ب</div>
+      <div class="class-opt" onclick="selectLoginClass('رابع-أ','رابع أ',this)">رابع أ</div>
+      <div class="class-opt" onclick="selectLoginClass('رابع-ب','رابع ب',this)">رابع ب</div>
+    </div>
+    <h2 style="margin-bottom:0.8rem;">2. أدخل رقم السجل المدني</h2>
+    <input class="sid-input" type="text" id="sidInput" placeholder="رقم السجل المدني للطالب" maxlength="14">
+    <button class="login-btn" onclick="loginParent()">عرض بيانات الطالب 🔍</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- STUDENT VIEW -->
+<div id="studentView">
+  <button class="back-btn" onclick="goBack()">← رجوع</button>
+  <div id="studentContent"><div class="loading"><div class="spinner"></div>جاري التحميل...</div></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const FC = {apiKey:"AIzaSyCjvGgB2AbabCiUiZ_Y-tOdacOI82KpX24",authDomain:"myclass1-app.firebaseapp.com",projectId:"myclass1-app",storageBucket:"myclass1-app.firebasestorage.app",messagingSenderId:"542052243338",appId:"1:542052243338:web:1baa9d295b4291d5c91a73"};
+const db = getFirestore(initializeApp(FC));
+
+const BB = [
+  {id:'play',label:'اللعب أثناء الحصة',emoji:'🎮'},
+  {id:'talk',label:'الحديث الجانبي',emoji:'💬'},
+  {id:'fight',label:'مشاجرة داخل الفصل',emoji:'🤼'},
+  {id:'sleep',label:'النوم أثناء الحصة',emoji:'😴'},
+  {id:'eat',label:'الأكل أثناء الحصة',emoji:'🍔'},
+];
+
+let selectedClassId=null, selectedClassLabel='', unsubscribe=null;
+let currentStudents=[], currentGroups=[], currentSid='';
+
+window.selectLoginClass=function(id,label,el){
+  selectedClassId=id;selectedClassLabel=label;
+  document.querySelectorAll('.class-opt').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('loginErr').textContent='';
+};
+
+window.loginParent=function(){
+  const sid=document.getElementById('sidInput').value.trim();
+  const err=document.getElementById('loginErr');
+  if(!selectedClassId){err.textContent='الرجاء اختيار الفصل أولاً!';return;}
+  if(!sid){err.textContent='الرجاء إدخال رقم السجل المدني!';return;}
+  currentSid=sid;
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('studentView').style.display='block';
+  document.getElementById('studentContent').innerHTML='<div class="loading"><div class="spinner"></div>جاري التحميل...</div>';
+
+  if(unsubscribe)unsubscribe();
+  unsubscribe=onSnapshot(doc(db,'classes',selectedClassId),snap=>{
+    if(snap.exists()){const d=snap.data();currentStudents=d.students||[];currentGroups=d.groups||[];}
+    else{currentStudents=[];currentGroups=[];}
+    renderStudent();
+  },()=>{
+    document.getElementById('studentContent').innerHTML='<div class="loading">خطأ في الاتصال بالإنترنت</div>';
+  });
+};
+
+window.goBack=function(){
+  if(unsubscribe){unsubscribe();unsubscribe=null;}
+  document.getElementById('studentView').style.display='none';
+  document.getElementById('loginScreen').style.display='block';
+  document.getElementById('sidInput').value='';
+  document.getElementById('loginErr').textContent='';
+};
+
+function renderStudent(){
+  const el=document.getElementById('studentContent');
+  const student=currentStudents.find(s=>s.sid===currentSid);
+  if(!student){
+    el.innerHTML=`<div class="loading"><div style="font-size:3rem;margin-bottom:1rem">😕</div>لم يتم العثور على طالب بهذا الرقم<br><span style="font-size:0.82rem;color:var(--muted)">تأكد من صحة الفصل ورقم السجل المدني</span></div>`;
+    return;
+  }
+
+  // rank
+  const sorted=[...currentStudents].sort((a,b)=>b.points-a.points);
+  const rank=sorted.findIndex(s=>s.sid===currentSid)+1;
+  const medals=['🥇','🥈','🥉'];
+  const rankLabel=medals[rank-1]||`#${rank}`;
+
+  // group
+  const grp=currentGroups.find(g=>g.members.includes(student.id));
+
+  // behaviors
+  const behaviors=(student.behaviors||[]).map(bid=>{const b=BB.find(b=>b.id===bid);return b?`<div class="bhv-item"><span class="bhv-emoji">${b.emoji}</span><span class="bhv-text">${b.label}</span></div>`:''}).join('');
+
+  el.innerHTML=`
+    <div class="student-hero">
+      <div class="hero-name">${student.name}</div>
+      <div class="hero-class">📚 ${selectedClassLabel}</div>
+      <div><span class="live-badge"><div class="live-dot"></div>بيانات مباشرة</span></div>
+    </div>
+
+    <div class="stats-cards">
+      <div class="stat-card gold">
+        <div class="stat-num gold">${student.points}</div>
+        <div class="stat-label">النقاط العامة</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num green">${student.bhvPoints||0}</div>
+        <div class="stat-label">نقاط السلوك الجيد 😇</div>
+      </div>
+    </div>
+
+    <div class="section-card" style="text-align:center;">
+      <h3>🏆 الترتيب في الفصل</h3>
+      <div class="rank-badge">${rankLabel} من ${currentStudents.length} طالب</div>
+    </div>
+
+    ${grp?`<div class="section-card">
+      <h3>🫂 المجموعة</h3>
+      <div class="group-display">
+        <div class="group-dot" style="background:${grp.color}"></div>
+        <div class="group-name">${grp.name}</div>
+      </div>
+    </div>`:''}
+
+    <div class="section-card">
+      <h3>⚠️ ملاحظات السلوك</h3>
+      ${behaviors||'<div class="empty-note">✅ لا توجد ملاحظات سلوكية</div>'}
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
